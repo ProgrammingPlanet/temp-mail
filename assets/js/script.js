@@ -44,14 +44,11 @@ let app = Vue.createApp({
         },
         fetchInbox()
         {
-            if(this.mail_addr.indexOf('@') !== -1)
-            {
-                this.api.check_inbox(this.mail_addr).then(mails => {
-                    mails.sort((a, b) => a.date.localeCompare(b.date)); //sort by date
-                    this.inbox = mails
-                })
-                .catch(e => {notyf.error(e.message)})
-            }
+            this.api.check_inbox(this.mail_addr, this.mail_domain).then(mails => {
+                mails.sort((a, b) => a.date.localeCompare(b.date)); //sort by date
+                this.inbox = mails
+            })
+            .catch(e => {notyf.error(e.message)})
         },
         ToggleMailView(id)
         {
@@ -67,7 +64,7 @@ let app = Vue.createApp({
                     this.viewEmail = tragetMail[0]
                 }
                 else{
-                    this.api.read_email(this.mail_addr, id).then(msg => {
+                    this.api.read_email(this.mail_addr,this.mail_domain,id).then(msg => {
                         this.emailsCache.push(msg)
                         this.viewEmail = msg
                     })

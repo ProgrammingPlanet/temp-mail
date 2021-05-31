@@ -12,21 +12,15 @@ class OneSecMail
         return emails.json()
     }
 
-    async check_inbox(mail_addr)
+    async check_inbox(mail_user, mail_domain)
     {
-        mail_addr = mail_addr.split('@')
-        let mail_user = mail_addr[0]
-        let mail_domain = mail_addr[1]
         let url = `${this.base_url}?action=getMessages&login=${mail_user}&domain=${mail_domain}`
         let mails = await fetch(url)
         return mails.json()
     }
 
-    async read_email(mail_addr,msg_id)
+    async read_email(mail_user, mail_domain, msg_id)
     {
-        mail_addr = mail_addr.split('@')
-        let mail_user = mail_addr[0]
-        let mail_domain = mail_addr[1]
         let url = `${this.base_url}?action=readMessage&login=${mail_user}&domain=${mail_domain}&id=${msg_id}`
 		let mail_content = await fetch(url)
 		return mail_content.json()

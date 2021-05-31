@@ -53,12 +53,6 @@
                             <option v-for="domain in available_domains">{{domain}}</option>
                         </select>
                     </div>
-                    <!-- <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 py-2 text-center bg-light border">
-                        <span>{{addr}}</span>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 text-center bg-info border" @click="CopyToClipBoard">
-                        <i class="btn fal fa-copy"></i>
-                    </div> -->
                 </div>
             </div>
 
@@ -75,7 +69,7 @@
             </div>
 
             <div class="px-0 mt-5 mx-auto border border-3">
-                <div v-if="viewEmail.id !== undefined" class="mx-1 my-2 p-2 border" v-html="viewEmail.body">
+                <div v-if="viewEmail.id !== undefined" class="mx-1 my-2 p-2 border border-primary border-4 bg-white" v-html="viewEmail.body">
                     
                 </div>
                 
