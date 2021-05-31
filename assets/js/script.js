@@ -5,7 +5,11 @@ let app = Vue.createApp({
 
             api: undefined,
 
-            addr: '....',
+            mail_addr: undefined,
+
+            mail_domain: '1secmail.com',
+
+            available_domains: new Set(),
 
             inbox: [
 
@@ -22,25 +26,27 @@ let app = Vue.createApp({
     },
 
     methods: {
-        generateEmail()
+        generateEmails(count)
         {
-            this.api.generate_emails().then(m => {
+            this.api.generate_emails(count).then(m => {
                 if(m.length === 0)
                 {
                     return notyf.error('unable to generate email, try again or refresh the page.')
                 }
-                this.addr = m[0]
-                this.inbox = []
+                m.forEach((v, i) => {
+                    this.available_domains.add(v.split('@')[1])
+                })
+                this.mail_addr = m[0].split('@')[0]
+                this.inbox = this.emailsCache = []
                 this.viewEmail = {id: undefined}
-                this.emailsCache = []
             })
             .catch(e => {notyf.error(e.message)})
         },
         fetchInbox()
         {
-            if(this.addr.indexOf('@') !== -1)
+            if(this.mail_addr.indexOf('@') !== -1)
             {
-                this.api.check_inbox(this.addr).then(mails => {
+                this.api.check_inbox(this.mail_addr).then(mails => {
                     mails.sort((a, b) => a.date.localeCompare(b.date)); //sort by date
                     this.inbox = mails
                 })
@@ -61,7 +67,7 @@ let app = Vue.createApp({
                     this.viewEmail = tragetMail[0]
                 }
                 else{
-                    this.api.read_email(this.addr, id).then(msg => {
+                    this.api.read_email(this.mail_addr, id).then(msg => {
                         this.emailsCache.push(msg)
                         this.viewEmail = msg
                     })
@@ -69,9 +75,13 @@ let app = Vue.createApp({
                 }
             }
         },
+        randomMailAddr()
+        {
+            this.mail_addr = Math.random().toString(36).slice(2)
+        },
         CopyToClipBoard()
         {
-          navigator.clipboard.writeText(this.addr).then(() => {
+          navigator.clipboard.writeText(this.mail_addr+'@'+this.mail_domain).then(() => {
             notyf.success('copied to clipboard')
           }, () => {
             notyf.error('error in copying to clipboard')
@@ -88,7 +98,7 @@ let app = Vue.createApp({
     created(){
         this.UpgradeToSecure()
         this.api = new OneSecMail()
-        this.generateEmail()
+        this.generateEmails(100)
         setInterval(this.fetchInbox, 5000)
     }
 })
