@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <meta property="og:title" content="Temp Mail - Disposable Temporary Email" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://temp-mail.hackerworld.tk/" />
+    <meta property="og:site_name" content="HackerWorld - Temp Mail" />
+    <meta property="og:description" content="Keep spam out of your mail and stay safe - just use a disposable temporary email address! Protect your personal email address from spam with Temp-mail" />
+    <meta name="description" content="Keep spam out of your mail and stay safe - just use a disposable temporary email address! Protect your personal email address from spam with Temp-mail" />
+    <meta name="keywords" content="free, temporary, email, disposable, mail, email address" />
+    
+    <link href="https://cdn.glitch.com/993fa523-6e7e-4057-b093-5cd97f1dd06a%2Ftempmail.png?v=1622454839763" rel="shortcut icon">
+  
+    <title>Temp Mail - Disposable Temporary Email</title>
+  
+    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@0ac23ca/css/all.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="css/notyf.min.css" rel="stylesheet" type="text/css"/>
+  
+    <script src="js/1secmail-api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.0.11/dist/vue.global.prod.min.js"></script>
+    
+</head>
+<body>
+    
+    <div class="container my-2 p-3 border border-2 border-primary rounded" id="app">
+      
+        <h3 class="my-5 text-center"> Free Temporary Email Service </h3>
+        
+        <div class="row">
+
+            <div class="col-md-8 px-lg-5 px-sm-4 py-2 mx-auto border border-2 rounded">
+                <div class="row my-2">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+                      <h5>
+                        Your Temporary Email Address
+                      </h5>
+                  </div>
+                </div>
+                <div class="row my-4 border rounded">
+                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 py-2 text-center bg-light border">
+                        <span>{{addr}}</span>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 text-center bg-info border" @click="CopyToClipBoard">
+                        <i class="btn fal fa-copy"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 mx-auto text-center py-2 border border-1">
+                <button class="btn btn-md btn-primary mx-1" @click="CopyToClipBoard" title="copy email address into clipboard">
+                    <i class="fal fa-copy"></i> Copy
+                </button> 
+                <button class="btn btn-md btn-primary mx-1" @click="generateEmail" title="change email address">
+                    <i class="fal fa-edit"></i> Change
+                </button> 
+                <button class="btn btn-md btn-primary mx-1" @click="fetchInbox" title="refresh inbox for new e-mails">
+                    <i class="fad fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+
+            <div class="px-0 mt-5 mx-auto border border-3">
+                <div v-if="viewEmail.id !== undefined" class="mx-1 my-2 p-2 border" v-html="viewEmail.body">
+                    
+                </div>
+                
+                <div class="table-responsive" v-if="inbox.length !== 0">
+                  <table class="table table-responsive table-bordered text-center">
+                      <thead>
+                          <tr>
+                              <th>Sender</th>
+                              <th>Subject</th>
+                              <th>Time</th>
+                              <th>View</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr v-for="mail in inbox" :key="mail.id" :class="mail.id === viewEmail.id ? 'bg-info' : ''">
+                              <td>{{mail.from}}</td>
+                              <td>{{mail.subject}}</td>
+                              <td>{{mail.date}}</td>
+                              <td>
+                                  <i class="fa" :class="mail.id !== viewEmail.id ? 'fa-eye' : 'fa-eye-slash'" @click="ToggleMailView(mail.id)"></i>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table> 
+                </div>
+                
+                <div class="py-3 text-center" v-else>
+                    <h4 class="my-2">Inbox is Empty</h4>
+                    <h6 class="my-3">looking For New Emails</h6>
+                    <div class="spinner-border text-success">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+      
+      
+        <div class="row mt-5 p-3 border border-3 border-success rounded">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+                <h5 class="text-primary"> What is Disposable Temporary E-mail? </h5>
+                <p>Disposable email - is a free email service that allows to receive email at a temporary address that self-destructed after a certain time elapses. It is also known by names like : tempmail, 10minutemail, 10minmail, throwaway email, fake-mail , fake email generator, burner mail or trash-mail. Many forums, Wi-Fi owners, websites and blogs ask visitors to register before they can view content, post comments or download something. Temp-Mail - is most advanced throwaway email service that helps you avoid spam and stay safe.</p>
+            </div>
+          
+        </div>
+
+    </div>
+
+</body>
+</html>
+<script src="js/notyf.min.js"></script>
+<script src="js/script.js"></script>
