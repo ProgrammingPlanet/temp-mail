@@ -32,11 +32,13 @@
     <script src="/assets/js/vue.global.prod.min.js" type="text/javascript"></script>
 
     <script src="assets/js/script.js"></script>
+
+
     
 </head>
 <body>
     
-    <div class="container p-3 border border-2 border-primary rounded" id="app">
+    <div class="container p-3" id="app">
       
         <h3 class="my-5 text-center"> Free Temporary Email Service </h3>
 
@@ -62,13 +64,13 @@
             </div>
 
             <div class="col-md-8 mx-auto text-center py-2 border border-1">
-                <button class="btn btn-md btn-primary mx-1" @click="CopyToClipBoard" title="copy email address into clipboard">
+                <button class="btn btn-sm btn-primary mx-1" @click="CopyToClipBoard" title="copy email address into clipboard">
                     <i class="fal fa-copy"></i> Copy
                 </button> 
-                <button class="btn btn-md btn-primary mx-1" @click="randomMailAddr" title="change email address">
+                <button class="btn btn-sm btn-primary mx-1" @click="randomMailAddr" title="change email address">
                     <i class="fal fa-edit"></i> Change
                 </button> 
-                <button class="btn btn-md btn-primary mx-1" @click="fetchInbox" title="refresh inbox for new e-mails">
+                <button class="btn btn-sm btn-primary mx-1" @click="fetchInbox" title="refresh inbox for new e-mails">
                     <i class="fad fa-sync-alt"></i> Refresh
                 </button>
             </div>
@@ -108,7 +110,7 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-                
+        
             </div>
 
         </div>
@@ -119,11 +121,7 @@
                 <h5 class="text-primary"> What is Disposable Temporary E-mail? </h5>
                 <p>Disposable email - is a free email service that allows to receive email at a temporary address that self-destructed after a certain time elapses. It is also known by names like : tempmail, 10minutemail, 10minmail, throwaway email, fake-mail , fake email generator, burner mail or trash-mail. Many forums, Wi-Fi owners, websites and blogs ask visitors to register before they can view content, post comments or download something. Temp-Mail - is most advanced throwaway email service that helps you avoid spam and stay safe.</p>
             </div>
-          
         </div>
-
-
-
 
     </div>
 
