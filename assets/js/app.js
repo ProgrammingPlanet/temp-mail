@@ -19,13 +19,16 @@ let app = Vue.createApp({
                 id: undefined
             },
 
-            emailsCache: [
+            emailsCache: {
 
-            ]
+            }
         }
     },
 
     methods: {
+        get_full_email_addr(){
+            return `${this.mail_addr}@${this.mail_domain}`
+        },
         generateEmails(count)
         {
             this.api.generate_emails(count).then(m => {
@@ -50,20 +53,21 @@ let app = Vue.createApp({
         },
         ToggleMailView(id)
         {
-            console.log(id)
+            // console.log(id)
             if(id === this.viewEmail.id)
             {
                 this.viewEmail = {id: undefined}
             }
             else{
-                let tragetMail = this.emailsCache.filter((mail) => {return mail.id === id})
+                let cache = this.emailsCache[this.get_full_email_addr()]
+                let tragetMail = (cache!==undefined) ? cache.filter((mail) => {return mail.id === id}) : []
                 if(tragetMail.length !== 0)
                 {
                     this.viewEmail = tragetMail[0]
                 }
                 else{
                     this.api.read_email(this.mail_addr,this.mail_domain,id).then(msg => {
-                        this.emailsCache.push(msg)
+                        (cache!==undefined) ? (cache=[msg]) : cache.push(msg)
                         this.viewEmail = msg
                     })
                     .catch(e => {notyf.error(e.message)})
@@ -71,7 +75,7 @@ let app = Vue.createApp({
             }
         },
         dataReset(){
-            this.inbox = this.emailsCache = []
+            this.inbox = this.emailsCache = {}
             this.viewEmail = {id: undefined}
         },
         randomMailAddr()
@@ -81,7 +85,7 @@ let app = Vue.createApp({
         },
         CopyToClipBoard()
         {
-          navigator.clipboard.writeText(this.mail_addr+'@'+this.mail_domain).then(() => {
+          navigator.clipboard.writeText(this.get_full_email_addr()).then(() => {
             notyf.success('copied to clipboard')
           }, () => {
             notyf.error('error in copying to clipboard')
